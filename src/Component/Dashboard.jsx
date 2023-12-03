@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Country, State, City } from "country-state-city";
-import Graph from "./Graph";
+import TempGraph from "./TempGraph";
 import Card from "./Card";
+import WindGraph from "./WindGraph";
+import RainGraph from "./RainGraph";
 
 function Dashboard() {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -170,10 +172,19 @@ function Dashboard() {
 
              <Card weatherData={weatherData}/>
             </div>
-            
-            <Graph city={searchClicked ? graphCity : ""} />
+            <div>
+             
+            <div className="flex h-4/4">
+            <TempGraph city={searchClicked ? graphCity : ""} />
+            <WindGraph city={searchClicked ? graphCity : ""} />
+            </div>
+            <div >
+            <RainGraph city={searchClicked ? graphCity : ""} />
+            </div>
+            </div>
            
           </div>
+          
         </div>
       </div>
     </div>

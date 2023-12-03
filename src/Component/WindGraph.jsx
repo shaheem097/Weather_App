@@ -1,9 +1,11 @@
+// WindGraph.jsx
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import ReactApexChart from 'react-apexcharts';
 
-const WeeklyPerformGraph = ({ city }) => {
+const WindGraph = ({ city }) => {
   const [weatherData, setWeatherData] = useState(null);
+
   const [chartData, setChartData] = useState({
     series: [],
     options: {
@@ -30,7 +32,7 @@ const WeeklyPerformGraph = ({ city }) => {
           format: 'dd/MM/yy HH:mm',
         },
       },
-      colors: ['#6E59A3', '#F1BB67'],
+      colors: ['blue'], // You can customize the color for wind data
     },
   });
 
@@ -47,8 +49,7 @@ const WeeklyPerformGraph = ({ city }) => {
     if (city) {
       fetchData(city);
     } else {
-      // Fetch data for default city (London)
-      fetchData('London');
+      fetchData('London'); // Fetch data for default city (London)
     }
   }, [city]);
 
@@ -67,19 +68,15 @@ const WeeklyPerformGraph = ({ city }) => {
 
       const newSeries = [
         {
-          name: 'Min Temperature',
-          data: fiveDayData.map(item => item.main.temp_min),
-        },
-        {
-          name: 'Max Temperature',
-          data: fiveDayData.map(item => item.main.temp_max),
+          name: 'Wind Speed',
+          data: fiveDayData.map(item => item.wind.speed),
         },
       ];
 
       const newOptions = {
         ...chartData.options,
         xaxis: {
-          categories: uniqueDays.slice(0, 5), // Use unique day names for the first 5 days
+          categories: uniqueDays.slice(0, 5),
         },
       };
 
@@ -89,7 +86,8 @@ const WeeklyPerformGraph = ({ city }) => {
 
   return (
     <>
-      <div className="w-46rem mt-14 h-1/4 bg-white ml-5 rounded-xl shadow-xl border border-gray-300 hover hover:border-2 border-gray-300">
+      <div className="w-46rem mt-14 h-1/4 bg-white ml-5 rounded-xl shadow-xl border border-gray-300 hover hover:border-2 border-gray-300 relative">
+        <h2 className="text-xl font-semibold text-center absolute top-4 left-1/2 transform -translate-x-1/2">Wind Speed</h2>
         <div className="mt-8 flex gap-2">
           <ReactApexChart options={chartData.options} series={chartData.series} type="area" height={250} />
         </div>
@@ -98,4 +96,4 @@ const WeeklyPerformGraph = ({ city }) => {
   );
 };
 
-export default WeeklyPerformGraph;
+export default WindGraph;
