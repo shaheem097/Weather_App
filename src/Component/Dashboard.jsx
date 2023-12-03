@@ -9,6 +9,8 @@ function Dashboard() {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [weatherData, setWeatherData] = useState(null);
+  const [graphCity, setGraphCity] = useState("");
+  const [searchClicked, setSearchClicked] = useState(false);
 
   const API_KEY = "a9a85d5a99870de041da012f317557b2";
 
@@ -19,9 +21,11 @@ function Dashboard() {
 
       axios.get(url).then((response) => {
         setWeatherData(response.data);
+        setGraphCity(city);
         console.log(response.data);
       });
     }
+    setSearchClicked(true);
   };
 
   const handleCountryChange = (event) => {
@@ -71,7 +75,8 @@ function Dashboard() {
     // Get current location weather data when component mounts
     getCurrentLocation();
   }, []);
-
+ 
+  
  
 
 
@@ -166,7 +171,7 @@ function Dashboard() {
              <Card weatherData={weatherData}/>
             </div>
             
-           <Graph />
+            <Graph city={searchClicked ? graphCity : ""} />
            
           </div>
         </div>
